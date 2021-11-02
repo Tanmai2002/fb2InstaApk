@@ -14,6 +14,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FireBaseHandler {
     FirebaseDatabase db;
     DatabaseReference ref;
@@ -30,7 +33,11 @@ public class FireBaseHandler {
     }
 
     public void pushQuote(Context c,String quote){
-        ref.child("quotes").push().setValue(quote).addOnCompleteListener(new OnCompleteListener<Void>() {
+        DatabaseReference r=ref.child("quotes").push();
+        HashMap<String,String> keyPair=new HashMap<String,String>();
+        keyPair.put("quote",quote);
+        keyPair.put("published","NO");
+                r.setValue(keyPair).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(!task.isSuccessful()){
